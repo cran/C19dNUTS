@@ -2,11 +2,11 @@
 \alias{C19dNUTSdata}
 \docType{data}
 \title{
-Regional COVID-19 deaths per 100,000 pop
+Regional cumulative COVID-19 deaths
 }
 
 \description{
-Cumulative COVID-19 deaths absolute and per 100,000 pop at NUTS3 level
+Cumulative COVID-19 deaths absolute and per 100,000 pop at NUTS3 level for 31 EU/EFTA countries
 }
 
 
@@ -29,15 +29,35 @@ Cumulative COVID-19 deaths absolute and per 100,000 pop at NUTS3 level
 }
 
 \details{
-The dataset contains cumulative COVID-19 deaths (absolute: \code{C19deaths}, per 100,000 pop: \code{C19deaths_per100000}) at the regional level (mostly NUTS 3) for 31 EU/EFTA countries (AT, BE, BG, CH, CY, CZ, DE, DK, EE, EL, ES, FI, FR, HR, HU, IE, IS, IT, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK, UK). Unless otherwise noted, data includes all reported COVID-19-associated deaths since the beginning of the COVID-19 pandemic through approximately mid-June 2022. Please refer to the source section for the exact date on which each raw dataset was retrieved.
+The dataset contains cumulative COVID-19 deaths at the regional level (mostly NUTS 3, N=1,143) for 31 EU/EFTA countries (AT, BE, BG, CH, CY, CZ, DE, DK, EE, EL, ES, FI, FR, HR, HU, IE, IS, IT, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK, UK). The \code{C19deaths} variable contains the absolute number of COVID-19 related deaths, and the variable \code{C19deaths_per100000} equals the death numbers relative to the population (per 100,000). 
 
-In some cases, countries publish regional COVID-19 data directly at NUTS3 level (e.g., Germany) or NUTS2 level (e.g., Italy). In other cases, the regional level had to be linked manually (e.g., Norway, Switzerland). Some countries even publish the relevant data on a smaller scale, i.e. below NUTS3 (e.g., Austria, Poland, England). In these cases, where a reference table was available, the lower level was linked to the NUTS3 level (e.g., England). If no reference table but a lower level shapefile was available, the lower level was linked to the NUTS3 level via a spatial join using QGIS (e.g., Poland). 
+Unless otherwise noted, data includes all reported COVID-19 related deaths since the beginning of the COVID-19 pandemic through June 2022. Please refer to the source section below for the exact date on which each raw dataset was retrieved. The spatial level is the current NUTS 2021 classification of the European Union (see \url{https://ec.europa.eu/eurostat/web/nuts/background}), with one slight modification (see "Technical details" below). The variable \code{NUTS_Level} documents the spatial level for which the numbers apply (mostly \code{NUTS_Level} = 3 for NUTS3). 
 
-Data on COVID-19 deaths are incomplete for the following EU/EFTA countries: Bulgaria, France, Poland. In Bulgaria, regional COVID-19 deaths were only published for the years 2020 and 2021, i.e. the cases for 2022 are missing. France only publishes the COVID-19 deaths that did NOT die in a nursing home at regional level, i.e. there is a lack of people who died in nursing homes from/with COVID-19. Polish deaths are missing COVID-19 deaths from the first pandemic wave; therefore only the COVID-19 fatalities from the date 2020-11-24 are included. The following EU/EFTA countries have not published sub-national data for COVID-19 deaths: Finland, Island, Hungary, Estonia, Latvia, Malta. The values for these countries refer to the national level (NUTS 0), which is indicated by the variable \code{NUTS_Level} = 0. Norway does not provide COVID-19 data for the NUTS3 regions NO0B1 and NO0B2.
+\emph{Technical details:}
 
-The data set can be linked directly to the EU NUTS Shapefile (\url{https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/nuts}; accessed 2022-06-23). The connection is made via the \code{NUTS_ID} column. However, there is one exception: To ensure data compatibility, the British NUTS3 regions UKM61 and UKM63 were aggregated into one region (UKM61).
+This dataset contains cumulative numbers and no time series, as many countries only publish cumulative data on COVID-19 deaths. In cases where countries only publish COVID-19 deaths in the form of daily data, the numbers were summed up over the entire period under consideration at the respective spatial level.
+
+The definition of a COVID-19 death may vary between countries. The respective definition can usually be found on the website of the national health authority. In some countries, data is reported based on different definitions. For example, Lithuania uses three different definitions, namely a) based on the main cause of death in the death certificate, b) based on a mention in the death certificate and c) died within 28 days of a positive SARS-CoV-2 test (\url{https://open-data-sets-ls-osp-sdg.hub.arcgis.com/datasets/ba35de03e111430f88a86f7d1f351de6_0/about}). In England, for example, a distinction is made between the deceased who tested positive and those who died from COVID-19 based on the death certificate (\url{https://coronavirus.data.gov.uk/details/deaths}). In these cases, the definition used has always been the equivalent of the total number of COVID-19 deaths as reported by the national figures from Johns Hopkins University (\url{https://coronavirus.jhu.edu/data/cumulative-cases}).
+
+In some cases, countries publish regional COVID-19 data directly at NUTS3 level (e.g., Germany) or NUTS2 level (e.g., Italy). In most cases, the regional level had to be linked manually using the name of the region (e.g., Bulgaria, Norway, Switzerland). Some countries even publish the relevant data on a smaller scale, i.e. below NUTS3 (e.g., Austria, Netherlands, Poland, England). In these cases, where a reference table (subnational spatial unit <-> NUTS3) was available, the lower level was linked to the NUTS3 level (e.g., England). If no reference table but geodata (shapefiles) for the lower spatial level was available (e.g., Austria, Netherlands, Poland), the lower level was linked to the NUTS3 level via a spatial join (Polygon centroids; in cases where the centroid was outside the polygon, it was placed inside the polygon manually). In these cases, the numbers were then summed up at NUTS3 level. 
+
+The spatial reference used here is the current EU NUTS Shapefile (\url{https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/nuts}; accessed 2022-06-23). The dataset can be linked directly to this shapefile, where the unique id field to which the link can be made is the column \code{NUTS_ID}. However, there is one exception: To ensure data compatibility, the UK NUTS3 regions UKM61 and UKM63 were aggregated into one region (UKM61).
 
 The data reflects 1,309,326 COVID-19 related deaths in the 31 countries in the investigated time period. The variable \code{C19deaths_per100000} is non-normally distributed (Shapiro-Wilk test: W = 0.92284, p < 0.01). The natural log of \code{C19deaths_per100000} is spatially autocorrelated (Moran's I with queen contiguous spatial weighting: I = 0.65228, p < 0.01).
+
+\emph{Data limitations:}
+
+It can be assumed that there are differences between countries and possibly also over time in the definition of a COVID-19 death (see "Technical details" above). Please check the definition on the website of the respective national health authority.
+
+Data on COVID-19 deaths are incomplete for the following EU/EFTA countries: Bulgaria, France, Poland. In Bulgaria, regional COVID-19 deaths were only published for the years 2020 and 2021 (36,142 COVID-19 related deaths in total), i.e. the cases for 2022 are missing. France only publishes the COVID-19 patients which died in a hospital at the regional level, which equals 120,630 COVID-19 related deaths over the period under consideration (as of 2022-06-30). The total number of COVID-19 related deaths in France for the same time is equal to 149,533, which means that there is a lack of 28,903 COVID-19 fatalities (19.3 \%, e.g., people which died in nursing homes). Polish deaths are missing COVID-19 deaths from the first pandemic wave. Therefore only the COVID-19 fatalities from the date 2020-11-24 are included, which equals 102,449 deaths. In the previous period, 13,780 COVID-19 deaths were reported, which are not included in the data set, i.e. 11.9\% of the deaths are missing.
+
+Of the 31 EU/EFTA countries included, regional data are only available for 24 countries. The following countries have not published sub-national data for COVID-19 deaths: Cyprus, Finland, Island, Hungary, Estonia, Latvia, Malta. The values for Finland, Hungary, Estonia and Latvia refer to the national level (NUTS 0), which is indicated by the variable \code{NUTS_Level} = 0. In the cases of Cyprus, Malta and Iceland (which are rather small countries), the NUTS 0 level also corresponds to the NUTS 2 level, which is why they are marked here in the dataset with \code{NUTS_Level} = 2. It is comparatively difficult to compare the data with Belgium because COVID-19 death figures are only published there at NUTS 1 level (3 regions; \code{NUTS_Level} = 1).
+
+Some countries report separately persons who died of/with COVID-19 who live outside the country or cannot be assigned to a region (e.g., Greece, Norway). These cases are shown separately in the dataset, but cannot be related to population numbers and cannot be linked to the NUTS shapefile.
+
+Norway does not provide COVID-19 data for the NUTS3 regions NO0B1 and NO0B2. 
+
+In the UK, each country (England, Wales, Scotland, and Northern Ireland) is independently responsible for publishing COVID-19 data. Therefore the data are not all available at the same spatial aggregation level (e.g. England: NUTS 3, Wales: NUTS 2). 
 }
 
 \source{
@@ -110,6 +130,10 @@ UK - Northern Ireland: \url{https://www.nisra.gov.uk/system/files/statistics/Wee
 UK - Scotland: \url{https://www.nrscotland.gov.uk/files//statistics/covid19/covid-deaths-22-data-week-25.xlsx} (data for 2021-2022) and \url{https://www.nrscotland.gov.uk/files//statistics/covid19/covid-deaths-20-data-final.xlsx} (data for 2022) (accessed 2022-07-01)
 
 UK - Wales: \url{https://public.tableau.com/app/profile/public.health.wales.health.protection/viz/COVID-19Rapidmortalitydata/Summary} (accessed 2022-07-04)
+
+Population data:
+
+\url{https://ec.europa.eu/eurostat/databrowser/view/DEMO_R_PJANGRP3/default/table?lang=en&category=reg.reg_dem.reg_dempoar} (accessed 2022-06-22)
 }
 
 

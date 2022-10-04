@@ -1,6 +1,9 @@
-6bf311c7b6d69b1ceab1d660ffc2b391 *DESCRIPTION
+81c84c33f230be56ba14dc5a343459e8 *DESCRIPTION
 8b54e5a89fbda3af5e077053d40bec76 *NAMESPACE
-1413523840085d86dce63862fe7f2bbb *build/partial.rdb
+9ecb0bdfb906213cc54af05f9a8fb645 *build/partial.rdb
 90b1df824f8f403ffcbe4b7ef8c96491 *data/C19dNUTSdata.rda
-c803b346a083dca5f3812255069b918d *man/C19dNUTS-package.Rd
-fe1282dd8fc0ee3f53242e139155a2fd *man/C19dNUTSdata.Rd
+405e9b5ccc1e45bbee5d25a996aaf30a *inst/C19dNUTS_map.png
+8aa135f265783eedae7239d80a1be171 *inst/extdata/C19dNUTS.csv
+5696d214b920cf002e858ee272e4d902 *inst/extdata/C19dNUTS.xlsx
+f725aefb4929c21cafa4b56175f23ed5 *man/C19dNUTS-package.Rd
+e580c05d2f3dd3176f8a3765fc888e04 *man/C19dNUTSdata.Rd
